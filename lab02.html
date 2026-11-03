@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 02 — UX/UI Redesign Proposal | Spotify Desktop</title>
+</head>
+
+<body style="background-color: #121212; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px;">
+
+    <!-- NAVIGATION MENU -->
+    <nav style="background-color: #1a1a1a; padding: 15px; text-align: center; border: 2px solid #1db954; margin-bottom: 25px;">
+        <a href="#app" style="color: #1db954; font-size: 16px; margin: 0 10px; text-decoration: none; font-weight: bold;">1. App & Feature</a>
+        <a href="#current-flow" style="color: #ffffff; font-size: 16px; margin: 0 10px; text-decoration: none; font-weight: bold;">2. Current Flow</a>
+        <a href="#analysis" style="color: #ffffff; font-size: 16px; margin: 0 10px; text-decoration: none; font-weight: bold;">3. UX Analysis</a>
+        <a href="#proposal" style="color: #ffffff; font-size: 16px; margin: 0 10px; text-decoration: none; font-weight: bold;">4. Before & After</a>
+        <a href="#proposed-flow" style="color: #ffffff; font-size: 16px; margin: 0 10px; text-decoration: none; font-weight: bold;">5. Proposed Mockups</a>
+        <a href="#justification" style="color: #ffffff; font-size: 16px; margin: 0 10px; text-decoration: none; font-weight: bold;">6. Justification</a>
+        <a href="labs.html" style="color: #00bcd4; font-size: 16px; margin: 0 10px; text-decoration: underline; font-weight: bold;">← Back to Labs</a>
+        <a href="index.html" style="color: #aaaaaa; font-size: 16px; margin: 0 10px; text-decoration: underline; font-weight: bold;">← Main Page</a>
+    </nav>
+
+    <!-- HEADER -->
+    <header style="background-color: #191414; padding: 30px; margin-bottom: 25px; border-left: 6px solid #1db954; text-align: center;">
+        <h1 style="color: #1db954; font-size: 36px; margin: 0 0 10px 0;">Lab 02 — UX/UI Feature Redesign</h1>
+        <p style="color: #cccccc; font-size: 18px; margin: 0;">Redesigning the Playlist Creation & Song Selection Flow in Spotify Desktop</p>
+    </header>
+
+    <!-- 1. SELECTED APPLICATION -->
+    <section id="app" style="background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #1db954;">
+        <h2 style="color: #1db954; font-size: 26px; border-bottom: 2px solid #333333; padding-bottom: 8px; margin-top: 0;">
+            1. Selected Application & Feature
+        </h2>
+        <p style="font-size: 16px; margin: 10px 0;"><strong>Application Name:</strong> Spotify (Desktop Application)</p>
+        <p style="font-size: 16px; margin: 10px 0;"><strong>Selected Feature:</strong> Creating a new playlist, naming it, and adding songs.</p>
+        <p style="font-size: 16px; line-height: 1.6; color: #cccccc;">
+            <strong>Brief Explanation of the Task:</strong> Creating playlists is one of Spotify's core features. However, in the current desktop interface, the process forces users through a hidden icon, a cluttered dropdown menu, an auto-named empty playlist ("Mi playlist # 5"), and a repetitive one-by-one song search.
+        </p>
+    </section>
+
+    <!-- 2. CURRENT USER FLOW -->
+    <section id="current-flow" style="background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #1db954;">
+        <h2 style="color: #1db954; font-size: 26px; border-bottom: 2px solid #333333; padding-bottom: 8px; margin-top: 0;">
+            2. Current User Flow (Documented Experience)
+        </h2>
+        <p style="font-size: 16px; color: #cccccc; margin-bottom: 20px;">
+            <strong>Current Journey:</strong> Spotify Home → Click small "+" icon in collapsed sidebar → Select "Playlist" from 5-option menu → Land on auto-named "Mi playlist # 5" → Click "Nombre y datos" to rename → Scroll down to "Encontremos contenido para tu playlist" → Search artist → Click "Agregar" on each track individually.
+        </p>
+
+        <!-- Step 1 -->
+        <div style="background-color: #151515; padding: 18px; margin-bottom: 18px; border: 1px solid #333333;">
+            <h3 style="color: #ffffff; font-size: 19px; margin-top: 0;">Step 1: Locate the "+" Icon on the Home Screen</h3>
+            <img src="actual1.jpg" alt="Spotify Home Screen" width="600" style="border: 2px solid #333333; max-width: 100%;">
+            <p style="font-size: 15px; color: #cccccc; margin-top: 10px;">
+                On the main screen, the left library sidebar is collapsed into small icons. The "+" button to create a playlist is tiny, lacks a text label, and blends into the dark gray background.
+            </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="background-color: #151515; padding: 18px; margin-bottom: 18px; border: 1px solid #333333;">
+            <h3 style="color: #ffffff; font-size: 19px; margin-top: 0;">Step 2: Choose "Playlist" from a 5-Option Dropdown Menu</h3>
+            <img src="actual2.jpg" alt="Spotify Plus Dropdown Menu" width="420" style="border: 2px solid #333333; max-width: 100%;">
+            <p style="font-size: 15px; color: #cccccc; margin-top: 10px;">
+                Clicking "+" opens a menu mixing 5 different features: "Playlist", "Playlist mixeada (Beta)", "Fusión", "Carpeta", and "Jam". Mixing folder organization and live listening rooms with playlist creation adds unnecessary cognitive load.
+            </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="background-color: #151515; padding: 18px; margin-bottom: 18px; border: 1px solid #333333;">
+            <h3 style="color: #ffffff; font-size: 19px; margin-top: 0;">Step 3: Empty Playlist Created with Generic Name ("Mi playlist # 5")</h3>
+            <img src="actual3.jpg" alt="Empty Playlist Screen" width="600" style="border: 2px solid #333333; max-width: 100%;">
+            <p style="font-size: 15px; color: #cccccc; margin-top: 10px;">
+                Instead of asking for a name first, Spotify immediately generates an empty playlist titled "Mi playlist # 5". To customize it, the user must click "Nombre y datos" or "Elegir foto" to open another pop-up modal. Additionally, two different search bars appear on the same screen (top global search vs. bottom playlist search).
+            </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="background-color: #151515; padding: 18px; margin-bottom: 10px; border: 1px solid #333333;">
+            <h3 style="color: #ffffff; font-size: 19px; margin-top: 0;">Step 4: Search and Click "Agregar" Song by Song</h3>
+            <img src="actual4.jpg" alt="Search and Add Songs" width="600" style="border: 2px solid #333333; max-width: 100%;">
+            <p style="font-size: 15px; color: #cccccc; margin-top: 10px;">
+                In the bottom section ("Encontremos contenido para tu playlist"), searching for an artist like Daft Punk displays results with individual "Agregar" buttons on the far right. There is no option to select multiple tracks at once, nor can the user see the playlist tracklist while scrolling down in the search results.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. UX ANALYSIS -->
+    <section id="analysis" style="background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #1db954;">
+        <h2 style="color: #1db954; font-size: 26px; border-bottom: 2px solid #333333; padding-bottom: 8px; margin-top: 0;">
+            3. UX Analysis (Key Questions & Findings)
+        </h2>
+        <ul style="font-size: 16px; line-height: 1.7; color: #dddddd; padding-left: 25px;">
+            <li style="margin-bottom: 8px;"><strong>How many steps does the user need to complete?</strong> Around 6 to 8 steps (Click "+" → Select "Playlist" → Click "Nombre y datos" → Type name & save → Click internal search bar → Type query → Click "Agregar" repeatedly for every song).</li>
+            <li style="margin-bottom: 8px;"><strong>Is the feature easy to find?</strong> No. When the sidebar is collapsed, the "+" button is a small, unlabeled gray circle tucked below the library icon.</li>
+            <li style="margin-bottom: 8px;"><strong>Are buttons and visual elements easy to identify?</strong> Inside the dropdown, 5 options compete for attention. Inside the playlist, having two search bars ("¿Qué quieres reproducir?" at the top and "Busca canciones o episodios" at the bottom) creates visual confusion.</li>
+            <li style="margin-bottom: 8px;"><strong>Are there any confusing moments?</strong> Auto-naming the playlist "Mi playlist # 5" results in users having dozens of numbered playlists because renaming requires opening a separate modal.</li>
+            <li style="margin-bottom: 8px;"><strong>What would you change to make it simpler and faster?</strong> Add a visible "+ Crear Playlist" button, allow inline title editing, and use a split-screen builder with checkboxes to add multiple songs simultaneously.</li>
+        </ul>
+    </section>
+
+    <!-- 4. PRESENT THE BEFORE AND AFTER -->
+    <section id="proposal" style="background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #1db954;">
+        <h2 style="color: #1db954; font-size: 26px; border-bottom: 2px solid #333333; padding-bottom: 8px; margin-top: 0;">
+            4. Present the Before and After
+        </h2>
+
+        <div style="background-color: #151515; padding: 20px; border: 1px solid #333333;">
+            <p style="font-size: 16px; margin: 10px 0;"><strong>1. Which feature did you choose?</strong><br>
+            Creating, naming, and adding tracks to a new playlist on Spotify Desktop.</p>
+
+            <p style="font-size: 16px; margin: 10px 0;"><strong>2. How does it currently work?</strong><br>
+            Users click a small "+" icon, pick from 5 mixed options, land on a generic "Mi playlist # 5" page, open a separate modal to rename it, and scroll down to search and click "Agregar" one track at a time.</p>
+
+            <p style="font-size: 16px; margin: 10px 0;"><strong>3. What problem or opportunity for improvement did you identify?</strong><br>
+            Hidden entry point, overloaded dropdown menu, extra clicks required to rename the playlist, confusing dual search bars, and lack of multi-song selection.</p>
+
+            <p style="font-size: 16px; margin: 10px 0;"><strong>4. What changes did you propose?</strong><br>
+            1) A prominent green "+ Nueva Playlist" button in the top navigation bar. 2) Direct inline title input upon creation (no generic "# 5" title or extra pop-up). 3) A unified Split-View Playlist Builder where users check multiple songs on the left (from search or Liked Songs) and see them added live on the right with a single "Guardar Playlist" button.</p>
+
+            <p style="font-size: 16px; margin: 10px 0;"><strong>5. Why does your proposal improve the user experience?</strong><br>
+            It reduces the workflow from 7+ steps to just 3 clear steps, eliminates pop-up modals, prevents unnamed playlists, and lets users add 10+ songs in a single batch action.</p>
+        </div>
+    </section>
+
+    <!-- 5. DESIGN PROPOSAL & PROPOSED USER FLOW (INTERACTIVE VISUAL MOCKUPS) -->
+    <section id="proposed-flow" style="background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #1db954;">
+        <h2 style="color: #1db954; font-size: 26px; border-bottom: 2px solid #333333; padding-bottom: 8px; margin-top: 0;">
+            5. Proposed User Flow & Redesigned Interface Mockups
+        </h2>
+        <p style="font-size: 16px; color: #cccccc; margin-bottom: 20px;">
+            <strong>Proposed Journey (Only 3 Steps):</strong> Step 1: Click the high-contrast "+ Crear Playlist" button in the header → Step 2: Type the title directly and select multiple tracks using checkboxes → Step 3: Click "Agregar seleccionadas (3)" to finish.
+        </p>
+
+        <!-- MOCKUP 1: CLEAR ENTRY POINT -->
+        <div style="background-color: #0d0d0d; border: 2px solid #1db954; padding: 20px; margin-bottom: 25px;">
+            <p style="color: #1db954; font-size: 14px; font-weight: bold; margin: 0 0 12px 0; text-transform: uppercase;">
+                PROPOSED SCREEN 1 — High-Visibility Entry Point in Top Bar
+            </p>
+            <div style="background-color: #181818; padding: 14px 20px; border: 1px solid #333333; text-align: left;">
+                <span style="background-color: #282828; color: #ffffff; padding: 8px 14px; border-radius: 20px; margin-right: 10px; font-size: 14px;">🏠 Inicio</span>
+                <span style="background-color: #282828; color: #aaaaaa; padding: 8px 30px; border-radius: 20px; margin-right: 15px; font-size: 14px;">🔍 ¿Qué quieres reproducir?</span>
+                <span style="background-color: #1db954; color: #000000; padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 14px;">+ Crear Playlist</span>
+            </div>
+            <p style="font-size: 14px; color: #bbbbbb; margin: 12px 0 0 0;">
+                <strong>Improvement:</strong> Placing a labeled green pill button next to the main bar makes playlist creation immediately discoverable without hunting for a small icon in a collapsed sidebar.
+            </p>
+        </div>
+
+        <!-- MOCKUP 2: UNIFIED SPLIT-VIEW BUILDER & BATCH SELECTION -->
+        <div style="background-color: #0d0d0d; border: 2px solid #1db954; padding: 20px;">
+            <p style="color: #1db954; font-size: 14px; font-weight: bold; margin: 0 0 12px 0; text-transform: uppercase;">
+                PROPOSED SCREEN 2 — Unified Playlist Builder with Inline Title & Multi-Select Checkboxes
+            </p>
+
+            <!-- Inline Title Header -->
+            <div style="background-color: #242424; padding: 20px; border-bottom: 2px solid #1db954; margin-bottom: 15px;">
+                <p style="color: #1db954; font-size: 12px; font-weight: bold; margin: 0 0 5px 0;">NUEVA PLAYLIST PÚBLICA (EDICIÓN DIRECTA SIN VENTANAS EMERGENTES)</p>
+                <div style="background-color: #121212; border: 2px solid #1db954; padding: 10px 15px; color: #ffffff; font-size: 24px; font-weight: bold;">
+                    Daft Punk & Electro Vibes ✎
+                </div>
+            </div>
+
+            <!-- Batch Song Selection -->
+            <div style="background-color: #181818; padding: 18px; border: 1px solid #333333;">
+                <div style="margin-bottom: 15px;">
+                    <span style="background-color: #1db954; color: #000000; padding: 5px 12px; font-size: 13px; font-weight: bold; margin-right: 8px;">🔍 Resultados: "daft punk"</span>
+                    <span style="background-color: #282828; color: #cccccc; padding: 5px 12px; font-size: 13px; margin-right: 8px;">💜 Tus Me Gusta</span>
+                    <span style="background-color: #282828; color: #cccccc; padding: 5px 12px; font-size: 13px;">🕒 Escuchado recientemente</span>
+                </div>
+
+                <!-- Track 1 (Selected) -->
+                <div style="background-color: #223326; padding: 10px 14px; margin-bottom: 8px; border: 1px solid #1db954;">
+                    <span style="color: #1db954; font-weight: bold; margin-right: 12px;">[✓]</span>
+                    <strong style="color: #ffffff;">Get Lucky (feat. Pharrell Williams and Nile Rodgers)</strong>
+                    <span style="color: #aaaaaa; font-size: 14px;"> — Daft Punk • Random Access Memories</span>
+                </div>
+
+                <!-- Track 2 (Selected) -->
+                <div style="background-color: #223326; padding: 10px 14px; margin-bottom: 8px; border: 1px solid #1db954;">
+                    <span style="color: #1db954; font-weight: bold; margin-right: 12px;">[✓]</span>
+                    <strong style="color: #ffffff;">Instant Crush (feat. Julian Casablancas)</strong>
+                    <span style="color: #aaaaaa; font-size: 14px;"> — Daft Punk • Random Access Memories</span>
+                </div>
+
+                <!-- Track 3 (Selected) -->
+                <div style="background-color: #223326; padding: 10px 14px; margin-bottom: 15px; border: 1px solid #1db954;">
+                    <span style="color: #1db954; font-weight: bold; margin-right: 12px;">[✓]</span>
+                    <strong style="color: #ffffff;">One More Time</strong>
+                    <span style="color: #aaaaaa; font-size: 14px;"> — Daft Punk • Discovery</span>
+                </div>
+
+                <!-- Sticky Confirmation Bar -->
+                <div style="background-color: #1db954; color: #000000; padding: 12px 20px; text-align: center; font-weight: bold; font-size: 16px;">
+                    ✓ Agregar 3 canciones seleccionadas y Guardar Playlist
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. JUSTIFICATION -->
+    <section id="justification" style="background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #1db954;">
+        <h2 style="color: #1db954; font-size: 26px; border-bottom: 2px solid #333333; padding-bottom: 8px; margin-top: 0;">
+            6. Justification of Design Decisions
+        </h2>
+        <ul style="font-size: 16px; line-height: 1.7; color: #dddddd; padding-left: 25px;">
+            <li style="margin-bottom: 10px;"><strong>UX Clarity & Step Reduction:</strong> By allowing users to type the playlist title directly in the header instead of defaulting to "Mi playlist # 5", we eliminate an entire modal window ("Nombre y datos").</li>
+            <li style="margin-bottom: 10px;"><strong>Batch Action vs. Repetitive Clicking:</strong> Replacing individual "Agregar" buttons with multi-select checkboxes and quick filter tabs ("Tus Me Gusta", "Escuchado recientemente") lets users add dozens of songs at once.</li>
+            <li style="margin-bottom: 10px;"><strong>Visual Hierarchy & Feedback:</strong> Using Spotify's signature green (#1DB954) for selected rows and a live counter bar ("✓ Agregar 3 canciones seleccionadas") provides immediate visual feedback and clear hierarchy against the dark background (#121212).</li>
+        </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="text-align: center; padding: 20px; color: #777777; font-size: 14px; border-top: 1px solid #333333;">
+        <p style="margin: 0;">Lab 02 — UX/UI Redesign Report | Created by Daniel Cortizo</p>
+    </footer>
+
+</body>
+
+</html>
