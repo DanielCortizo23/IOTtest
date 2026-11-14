@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 03 — Smart Parking | Dashboard</title>
+    <style>
+        body { background-color: #121212; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        nav { background-color: #1a1a1a; padding: 15px; text-align: center; border: 2px solid #00bcd4; margin-bottom: 25px; }
+        nav a { color: #ffffff; font-size: 16px; margin: 0 12px; text-decoration: none; font-weight: bold; }
+        nav a:hover, nav a.active { color: #00bcd4; text-decoration: underline; }
+        header { background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border-left: 6px solid #00bcd4; text-align: center; }
+        h1 { color: #00bcd4; margin: 0 0 10px 0; }
+        .dashboard { display: flex; justify-content: space-around; background-color: #1f1f1f; padding: 25px; margin-bottom: 25px; border: 1px solid #333333; text-align: center; flex-wrap: wrap; gap: 15px; }
+        .metric-card { background-color: #151515; padding: 20px 30px; border-radius: 8px; border: 1px solid #444; min-width: 150px; }
+        .metric-card h3 { margin: 0 0 8px 0; font-size: 15px; color: #aaaaaa; }
+        .metric-card p { margin: 0; font-size: 28px; font-weight: bold; color: #ffffff; }
+        .content-box { background-color: #1f1f1f; padding: 30px; border-left: 6px solid #00bcd4; text-align: center; margin-bottom: 25px; }
+        .btn { background-color: #00bcd4; color: #121212; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 15px; }
+        .btn:hover { opacity: 0.85; }
+        footer { text-align: center; padding: 20px; color: #777777; font-size: 14px; border-top: 1px solid #333333; }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <a href="index.html">Main Page</a>
+        <a href="labs.html">Labs Menu</a>
+        <a href="lab03.html" class="active" style="color: #00bcd4;">Lab 03 (Dashboard)</a>
+        <a href="parking-map.html">Parking Lot Map</a>
+        <a href="parking-simulation.html">IoT Simulation</a>
+    </nav>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <h1>Lab 03 — IoT Smart Parking System</h1>
+        <p>Tec de Monterrey Campus Querétaro — Real-Time Monitoring Dashboard</p>
+    </header>
+
+    <!-- DASHBOARD DE MÉTRICAS -->
+    <section class="dashboard">
+        <div class="metric-card">
+            <h3>Total Spaces</h3>
+            <p id="total-spaces">24</p>
+        </div>
+        <div class="metric-card">
+            <h3>Available</h3>
+            <p id="available-spaces" style="color: #4caf50;">--</p>
+        </div>
+        <div class="metric-card">
+            <h3>Occupied</h3>
+            <p id="occupied-spaces" style="color: #f44336;">--</p>
+        </div>
+        <div class="metric-card">
+            <h3>Occupancy Rate</h3>
+            <p id="occupancy-rate">--%</p>
+        </div>
+    </section>
+
+    <!-- ACCESOS RÁPIDOS A LAS OTRAS PÁGINAS -->
+    <section class="content-box">
+        <h2 style="color: #ffffff; margin-top: 0;">Explorar el Sistema Inteligente</h2>
+        <p style="color: #cccccc; font-size: 16px; max-width: 700px; margin: 0 auto 20px auto;">
+            Este sistema simula la detección vehicular mediante sensores IoT conectados al estacionamiento del Tec de Monterrey. Puedes revisar el mapa interactivo con la ubicación satelital o ver la simulación automatizada en tiempo real.
+        </p>
+        <a href="parking-map.html" class="btn" style="margin-right: 15px;">Ver Mapa y Sensores Interactivos →</a>
+        <a href="parking-simulation.html" class="btn" style="background-color: #2e7d32; color: white;">Ver Simulación IoT Automática →</a>
+    </section>
+
+    <footer>
+        <p>Lab 03 — Web Development & IoT Course | Created by Daniel Cortizo (A01715091)</p>
+    </footer>
+
+    <!-- SCRIPT PARA SINCRONIZAR MÉTRICAS GENERALES -->
+    <script>
+        // Cargar datos simulados compartidos mediante localStorage
+        function loadDashboardMetrics() {
+            let spots = JSON.parse(localStorage.getItem('parkingSpots'));
+            if (!spots) {
+                spots = [];
+                for (let i = 1; i <= 24; i++) {
+                    spots.push({ id: i, occupied: Math.random() < 0.5 });
+                }
+                localStorage.setItem('parkingSpots', JSON.stringify(spots));
+            }
+
+            const total = spots.length;
+            const occupied = spots.filter(s => s.occupied).length;
+            const available = total - occupied;
+            const rate = Math.round((occupied / total) * 100);
+
+            document.getElementById('total-spaces').innerText = total;
+            document.getElementById('available-spaces').innerText = available;
+            document.getElementById('occupied-spaces').innerText = occupied;
+            document.getElementById('occupancy-rate').innerText = `${rate}%`;
+        }
+
+        window.onload = loadDashboardMetrics;
+        setInterval(loadDashboardMetrics, 2000); // Actualizar métricas si cambian en otra pestaña
+    </script>
+
+</body>
+
+</html>

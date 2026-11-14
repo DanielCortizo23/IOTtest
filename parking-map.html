@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 03 — IoT Smart Parking | Tec QRO</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #e6edf3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* BARRA DE NAVEGACIÓN */
+        nav {
+            background-color: #161b22;
+            padding: 14px 20px;
+            border: 1px solid #30363d;
+            border-bottom: 3px solid #00bcd4;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: #c9d1d9;
+            font-size: 15px;
+            margin-right: 18px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #00bcd4;
+            text-decoration: underline;
+        }
+
+        .status-badge {
+            background-color: #0f291e;
+            color: #3fb950;
+            border: 1px solid #238636;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* BARRA SUPERIOR DE TÍTULO Y CONTROLES */
+        .top-bar {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 18px 25px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title-block h1 {
+            margin: 0;
+            font-size: 26px;
+            color: #00bcd4;
+        }
+
+        .title-block p {
+            margin: 4px 0 0 0;
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        .btn-primary {
+            background-color: #00bcd4;
+            color: #0d1117;
+            border: none;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #0097a7;
+        }
+
+        /* DISEÑO DIVIDIDO: PANEL IZQUIERDO (MÉTRICAS) + PANEL DERECHO (MAPA DE CAJONES) */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 950px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PANEL LATERAL DE TELEMETRÍA */
+        .sidebar {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            color: #ffffff;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .kpi-box {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: left;
+        }
+
+        .kpi-box span {
+            font-size: 12px;
+            color: #8b949e;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .kpi-box strong {
+            font-size: 26px;
+            color: #ffffff;
+        }
+
+        /* BARRA DE PROGRESO DE OCUPACIÓN */
+        .progress-container {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: #238636;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #da3633;
+            width: 50%;
+            transition: width 0.4s ease;
+        }
+
+        .ref-image-box {
+            border-top: 1px solid #30363d;
+            padding-top: 15px;
+        }
+
+        .ref-image-box p {
+            font-size: 13px;
+            color: #8b949e;
+            margin: 0 0 10px 0;
+        }
+
+        .ref-image-box img {
+            width: 100%;
+            border-radius: 6px;
+            border: 2px solid #00bcd4;
+        }
+
+        /* ZONA DE ASFALTO Y CARRILES DE ESTACIONAMIENTO */
+        .lot-panel {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .lot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 18px;
+            font-size: 13px;
+        }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* CONTENEDOR DE LAS 5 ISLAS DOBLES (ESTILO ASFALTO) */
+        .asphalt-area {
+            background-color: #1c2128;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(145px, 1fr));
+            gap: 18px;
+            min-width: 800px;
+        }
+
+        .island {
+            background-color: #11151c;
+            border-left: 2px dashed #eab308;
+            border-right: 2px dashed #eab308;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .island-title {
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #eab308;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            background-color: #1c2128;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .bays-double-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        /* CAJÓN INDIVIDUAL CON INDICADOR LED */
+        .bay {
+            background-color: #122d1f;
+            border: 1px solid #238636;
+            color: #7ee787;
+            padding: 8px 4px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.15s;
+        }
+
+        .bay .led {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #3fb950;
+            box-shadow: 0 0 5px #3fb950;
+        }
+
+        .bay.occupied {
+            background-color: #311519;
+            border-color: #da3633;
+            color: #ffa198;
+        }
+
+        .bay.occupied .led {
+            background-color: #f85149;
+            box-shadow: 0 0 5px #f85149;
+        }
+
+        .bay:hover {
+            transform: scale(1.06);
+            filter: brightness(1.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #8b949e;
+            font-size: 13px;
+            margin-top: 25px;
+            border-top: 1px solid #30363d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <div class="nav-links">
+            <a href="index.html">← Main Page</a>
+            <a href="labs.html">Labs Menu</a>
+            <a href="lab03.html" class="active">Lab 03 (Centro de Control)</a>
+            <a href="parking-map.html">Vista Satelital</a>
+            <a href="parking-simulation.html">Monitor Telemetría</a>
+        </div>
+        <div class="status-badge" id="sensor-status">● SENSORES IoT ACTIVOS</div>
+    </nav>
+
+    <!-- CABECERA Y BOTONES DE ACCIÓN -->
+    <div class="top-bar">
+        <div class="title-block">
+            <h1>TecPark IoT — Monitor de Estacionamiento</h1>
+            <p>Sector E1 (Zona OXXO) • Tecnológico de Monterrey Campus Querétaro</p>
+        </div>
+        <div class="controls">
+            <button class="btn btn-primary" id="btn-pause" onclick="toggleSim()">⏸ Pausar Sensores</button>
+            <button class="btn" onclick="randomizeLot()"> Lectura Aleatoria</button>
+            <button class="btn" onclick="simulateRushHour()"> Simular Hora Pico</button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL DIVIDIDO -->
+    <div class="main-layout">
+
+        <!-- COLUMNA IZQUIERDA: DASHBOARD Y MAPA SATELITAL -->
+        <aside class="sidebar">
+            <h2>Métricas en Tiempo Real</h2>
+
+            <div class="kpi-grid">
+                <div class="kpi-box">
+                    <span>Capacidad Total</span>
+                    <strong id="total-val">140</strong>
+                </div>
+                <div class="kpi-box">
+                    <span>Cajones Libres</span>
+                    <strong id="free-val" style="color: #3fb950;">0</strong>
+                </div>
+                <div class="kpi-box">
+                    <span>Cajones Ocupados</span>
+                    <strong id="occ-val" style="color: #f85149;">0</strong>
+                </div>
+                <div class="kpi-box">
+                    <span>% Ocupación</span>
+                    <strong id="rate-val" style="color: #00bcd4;">0%</strong>
+                </div>
+            </div>
+
+            <!-- Barra de saturación -->
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span style="color: #f85149;">Ocupado (<span id="bar-occ-label">0%</span>)</span>
+                    <span style="color: #3fb950;">Disponible (<span id="bar-free-label">0%</span>)</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="occ-bar"></div>
+                </div>
+            </div>
+
+            <!-- Imagen de referencia satelital integrada -->
+            <div class="ref-image-box">
+                <p><strong>Referencia Satelital del Sector:</strong> 5 islas dobles frente a OXXO Tec QRO.</p>
+                <img src="parking.png" alt="Mapa Estacionamiento Tec QRO">
+            </div>
+        </aside>
+
+        <!-- COLUMNA DERECHA: ISLAS DE ESTACIONAMIENTO -->
+        <main class="lot-panel">
+            <div class="lot-header">
+                <strong style="font-size: 16px;">Mapa de Sensores por Isla (Haz clic en un cajón para conmutar su
+                    sensor)</strong>
+                <div class="legend">
+                    <span><i class="dot" style="background-color: #3fb950;"></i> Sensor Libre</span>
+                    <span><i class="dot" style="background-color: #f85149;"></i> Vehículo Detectado</span>
+                </div>
+            </div>
+
+            <!-- Las 5 islas del estacionamiento -->
+            <div class="asphalt-area" id="asphalt-lot">
+                <!-- Generado dinámicamente por zonas A, B, C, D y E -->
+            </div>
+        </main>
+
+    </div>
+
+    <footer>
+        <p>Lab 03 — Web Development & IoT Course | Desarrollado por Daniel Cortizo Merelles (A01715091)</p>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        const zones = ['A', 'B', 'C', 'D', 'E'];
+        const baysPerZone = 28; // 5 islas x 28 cajones = 140 lugares en total
+        let parkingData = [];
+        let isRunning = true;
+
+        function initSystem() {
+            const saved = JSON.parse(localStorage.getItem('parkingSpots'));
+            if (saved && saved.length === zones.length * baysPerZone) {
+                parkingData = saved;
+            } else {
+                generateSpots(0.45);
+            }
+            renderLot();
+            setInterval(autoSensorTick, 3000);
+        }
+
+        function generateSpots(occupancyProb) {
+            parkingData = [];
+            let globalId = 1;
+            zones.forEach(zone => {
+                for (let num = 1; num <= baysPerZone; num++) {
+                    const label = `${zone}-${num < 10 ? '0' + num : num}`;
+                    parkingData.push({
+                        id: globalId++,
+                        zone: zone,
+                        code: label,
+                        occupied: Math.random() < occupancyProb
+                    });
+                }
+            });
+            localStorage.setItem('parkingSpots', JSON.stringify(parkingData));
+        }
+
+        function renderLot() {
+            const container = document.getElementById('asphalt-lot');
+            container.innerHTML = '';
+
+            zones.forEach((zone, idx) => {
+                const islandDiv = document.createElement('div');
+                islandDiv.className = 'island';
+
+                const arrow = idx % 2 === 0 ? '⬇' : '⬆';
+                islandDiv.innerHTML = `<div class="island-title">${arrow} ISLA ${zone} ${arrow}</div>`;
+
+                const doubleCol = document.createElement('div');
+                doubleCol.className = 'bays-double-col';
+
+                const zoneSpots = parkingData.filter(s => s.zone === zone);
+                zoneSpots.forEach(spot => {
+                    const bayDiv = document.createElement('div');
+                    bayDiv.className = `bay ${spot.occupied ? 'occupied' : ''}`;
+                    bayDiv.innerHTML = `<span>${spot.code}</span><span class="led"></span>`;
+
+                    bayDiv.onclick = () => {
+                        spot.occupied = !spot.occupied;
+                        localStorage.setItem('parkingSpots', JSON.stringify(parkingData));
+                        renderLot();
+                    };
+
+                    doubleCol.appendChild(bayDiv);
+                });
+
+                islandDiv.appendChild(doubleCol);
+                container.appendChild(islandDiv);
+            });
+
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            const total = parkingData.length;
+            const occupied = parkingData.filter(s => s.occupied).length;
+            const free = total - occupied;
+            const occRate = Math.round((occupied / total) * 100);
+            const freeRate = 100 - occRate;
+
+            document.getElementById('total-val').innerText = total;
+            document.getElementById('free-val').innerText = free;
+            document.getElementById('occ-val').innerText = occupied;
+            document.getElementById('rate-val').innerText = `${occRate}%`;
+
+            document.getElementById('bar-occ-label').innerText = `${occRate}%`;
+            document.getElementById('bar-free-label').innerText = `${freeRate}%`;
+            document.getElementById('occ-bar').style.width = `${occRate}%`;
+        }
+
+        function autoSensorTick() {
+            if (!isRunning) return;
+            const changes = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < changes; i++) {
+                const randIdx = Math.floor(Math.random() * parkingData.length);
+                parkingData[randIdx].occupied = !parkingData[randIdx].occupied;
+            }
+            localStorage.setItem('parkingSpots', JSON.stringify(parkingData));
+            renderLot();
+        }
+
+        function toggleSim() {
+            isRunning = !isRunning;
+            const btn = document.getElementById('btn-pause');
+            const badge = document.getElementById('sensor-status');
+            if (isRunning) {
+                btn.innerText = '⏸ Pausar Sensores';
+                badge.innerText = '● SENSORES IoT ACTIVOS';
+                badge.style.color = '#3fb950';
+                badge.style.borderColor = '#238636';
+            } else {
+                btn.innerText = '▶ Reanudar Sensores';
+                badge.innerText = '⏸ SIMULACIÓN EN PAUSA';
+                badge.style.color = '#eab308';
+                badge.style.borderColor = '#eab308';
+            }
+        }
+
+        function randomizeLot() {
+            generateSpots(0.45);
+            renderLot();
+        }
+
+        function simulateRushHour() {
+            generateSpots(0.85);
+            renderLot();
+        }
+
+        window.onload = initSystem;
+    </script>
+
+</body>
+
+</html>

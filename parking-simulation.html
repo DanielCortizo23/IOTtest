@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 03 — Smart Parking | IoT Telemetry Simulation</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #1a1a1a;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #00bcd4;
+            margin-bottom: 25px;
+        }
+
+        nav a {
+            color: #ffffff;
+            font-size: 16px;
+            margin: 0 12px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #00bcd4;
+            text-decoration: underline;
+        }
+
+        header {
+            background-color: #1f1f1f;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 6px solid #00bcd4;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00bcd4;
+            margin: 0 0 8px 0;
+        }
+
+        .sim-container {
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-left: 6px solid #00bcd4;
+            max-width: 700px;
+            margin: 0 auto 25px auto;
+        }
+
+        .log-box {
+            background-color: #151515;
+            border: 1px solid #333333;
+            padding: 15px;
+            height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+            color: #00bcd4;
+            text-align: left;
+        }
+
+        .log-item {
+            margin-bottom: 6px;
+            border-bottom: 1px dashed #222;
+            padding-bottom: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777777;
+            font-size: 14px;
+            border-top: 1px solid #333333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">Main Page</a>
+        <a href="labs.html">Labs Menu</a>
+        <a href="lab03.html">Lab 03 (Dashboard)</a>
+        <a href="parking-map.html">Parking Lot Map</a>
+        <a href="parking-simulation.html" class="active" style="color: #00bcd4;">IoT Simulation</a>
+    </nav>
+
+    <header>
+        <h1>Automated IoT Sensor Simulation</h1>
+        <p>Monitoreo en tiempo real de eventos y telemetría de cajones de estacionamiento</p>
+    </header>
+
+    <section class="sim-container" style="text-align: center;">
+        <h2 style="color: #ffffff; margin-top: 0;">Registro de Actividad de Sensores (MQTT / HTTP API)</h2>
+        <p style="color: #cccccc; font-size: 15px; margin-bottom: 20px;">
+            Los sensores simulados envían una nueva lectura de estado cada 4 segundos de forma autónoma.
+        </p>
+
+        <div class="log-box" id="log-box">
+            <div class="log-item">[System] Iniciando conexión con el broker IoT de Smart Parking...</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Lab 03 — Web Development & IoT Course | Created by Daniel Cortizo (A01715091)</p>
+    </footer>
+
+    <script>
+        let spotsData = [];
+
+        function initSimulation() {
+            let saved = JSON.parse(localStorage.getItem('parkingSpots'));
+            if (!saved) {
+                spotsData = [];
+                for (let i = 1; i <= 24; i++) {
+                    spotsData.push({ id: i, occupied: Math.random() < 0.5 });
+                }
+                localStorage.setItem('parkingSpots', JSON.stringify(spotsData));
+            } else {
+                spotsData = saved;
+            }
+        }
+
+        function triggerAutomaticSensor() {
+            const randomIndex = Math.floor(Math.random() * spotsData.length);
+            spotsData[randomIndex].occupied = !spotsData[randomIndex].occupied;
+
+            localStorage.setItem('parkingSpots', JSON.stringify(spotsData));
+
+            // Agregar registro al log visual
+            const logBox = document.getElementById('log-box');
+            const timeStr = new Date().toLocaleTimeString();
+            const statusStr = spotsData[randomIndex].occupied ? "OCUPADO (Vehículo detectado)" : "DISPONIBLE (Vacío)";
+            const colorCode = spotsData[randomIndex].occupied ? "#f44336" : "#4caf50";
+
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            logItem.innerHTML = `<span style="color: #888;">[${timeStr}]</span> Sensor Cajón #${spotsData[randomIndex].id} → <span style="color: ${colorCode}; font-weight: bold;">${statusStr}</span>`;
+
+            logBox.appendChild(logItem);
+            logBox.scrollTop = logBox.scrollHeight; // Auto-scroll al final
+        }
+
+        window.onload = () => {
+            initSimulation();
+            setInterval(triggerAutomaticSensor, 4000); // Cambia sensores cada 4 segundos
+        };
+    </script>
+
+</body>
+
+</html>
